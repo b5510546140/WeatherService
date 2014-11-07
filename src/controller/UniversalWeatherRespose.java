@@ -1,45 +1,18 @@
 package controller;
-
+/**
+ * This use for adapter class all of response have to have this method
+ * @author Aof
+ *
+ */
 public interface UniversalWeatherRespose {
 
-    /**
-     * Gets the value of the success property.
-     * 
-     */
     public boolean isSuccess();
 
-    /**
-     * Gets the value of the responseText property.
-     * 
-     * @
-     *     possible object is
-     *     {@link String }
-     *     
-     */
     public String getResponseText();
 
-
-    /**
-     * Gets the value of the state property.
-     * 
-     * @
-     *     possible object is
-     *     {@link String }
-     *     
-     */
     public String getState();
 
-
-    /**
-     * Gets the value of the city property.
-     * 
-     * @
-     *     possible object is
-     *     {@link String }
-     *     
-     */
     public String getCity();
-
 
     public String getWeatherStationCity();
     
