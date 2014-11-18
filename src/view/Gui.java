@@ -39,21 +39,17 @@ public class Gui extends JFrame{
 	private Working work;
 	private JProgressBar progressBar;
 	private boolean isRun = false;
+	private boolean isCancle = false;
 	private JButton submitButt;
 	private UniversalWeatherRespose weatherResponse;
 	
 	public Gui() {
 		super("Zip code for weather");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		try{
+		System.out.println("GUI start");
 
 			controller = new Controller();
-		} catch (WebServiceException e){
-
-			NotiEror();
-		}
-		
+		System.out.println("out controller");
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		getContentPane().add(panel);
@@ -92,6 +88,7 @@ public class Gui extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("+++++is run =" + isRun);
 				if(!isRun){// false gonna work
 				progressBar.setValue(0);
 				input = textField.getText().toString();	
@@ -99,14 +96,17 @@ public class Gui extends JFrame{
 				work.execute();
 				submitButt.setText("Cancel");
 				isRun = true;
+				isCancle = false;
+				System.out.println("0000000000");
 				}
 				else{// cancel
 					submitButt.setText("Submit");
 					progressBar.setValue(0);
-					work.cancel(true);
 					isRun = false;
+					isCancle = true;
+					System.out.println("1111111");
+					work.cancel(true);
 				}
-			System.out.println(isRun);
 				
 			}
 		});
@@ -128,30 +128,33 @@ public class Gui extends JFrame{
 		tableModel.setRowCount(0);
 		progressBar.setValue(80);
 		weatherResponse = controller.getWeatherReturn();
-		if(weatherResponse.isSuccess()){
-			String[][] array = manageArray();
-			for (String[] u: array) {
-			   
-			    	tableModel.addRow(u);
+		System.out.println("is cancle ="+isCancle);
+		if(!isCancle){
+			System.out.println("Not cancle");
+			if(weatherResponse.isSuccess()){
+				String[][] array = manageArray();
+				for (String[] u: array) {
+				   
+				    	tableModel.addRow(u);
+				}
+				isRun = false;
+				progressBar.setValue(100);
+				submitButt.setText("Submit");
 			}
+			else{
+				JOptionPane.showMessageDialog(null, "No Result ,\n Webservice of close,\n Time out","Error",JOptionPane.ERROR_MESSAGE);
+			}
+//			isRun = false;
+//			progressBar.setValue(100);
+//			submitButt.setText("Submit");
 		}
-		else{
-			JOptionPane.showMessageDialog(null, "No Result ,\n Webservice of close,\n Time out","Error",JOptionPane.ERROR_MESSAGE);
-		}
-//		if(controller.getList() != null){
-//			Table[] list = controller.getList();
-//			for(Table table : list){
-//				String row[] = {table.getCity()};
-//				tableModel.addRow(row);
-//			}
-//		}
-//		else{
-//			String result[] = {"No Result"};
-//			tableModel.addRow(result);
-//		}
-		isRun = false;
-		progressBar.setValue(100);
-		submitButt.setText("Submit");
+		else{//Cancle
+			System.out.println("Cancle");
+			isRun = false;
+			progressBar.setValue(100);
+			submitButt.setText("Submit");
+			isCancle = false;
+			}
 		}catch (WebServiceException e){
 			NotiEror();
 		}
