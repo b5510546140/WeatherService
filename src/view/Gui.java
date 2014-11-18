@@ -88,7 +88,6 @@ public class Gui extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("+++++is run =" + isRun);
 				if(!isRun){// false gonna work
 				progressBar.setValue(0);
 				input = textField.getText().toString();	
@@ -97,14 +96,12 @@ public class Gui extends JFrame{
 				submitButt.setText("Cancel");
 				isRun = true;
 				isCancle = false;
-				System.out.println("0000000000");
 				}
 				else{// cancel
 					submitButt.setText("Submit");
 					progressBar.setValue(0);
 					isRun = false;
 					isCancle = true;
-					System.out.println("1111111");
 					work.cancel(true);
 				}
 				
@@ -128,9 +125,10 @@ public class Gui extends JFrame{
 		tableModel.setRowCount(0);
 		progressBar.setValue(80);
 		weatherResponse = controller.getWeatherReturn();
+		
+		System.out.println(weatherResponse.isSuccess());
 		System.out.println("is cancle ="+isCancle);
 		if(!isCancle){
-			System.out.println("Not cancle");
 			if(weatherResponse.isSuccess()){
 				String[][] array = manageArray();
 				for (String[] u: array) {
@@ -142,6 +140,7 @@ public class Gui extends JFrame{
 				submitButt.setText("Submit");
 			}
 			else{
+				setButtonToDefault();
 				JOptionPane.showMessageDialog(null, "No Result ,\n Webservice of close,\n Time out","Error",JOptionPane.ERROR_MESSAGE);
 			}
 //			isRun = false;
@@ -150,14 +149,23 @@ public class Gui extends JFrame{
 		}
 		else{//Cancle
 			System.out.println("Cancle");
-			isRun = false;
-			progressBar.setValue(100);
-			submitButt.setText("Submit");
+			setButtonToDefault();
 			isCancle = false;
 			}
 		}catch (WebServiceException e){
 			NotiEror();
+		}catch(NullPointerException e){
+			System.out.println("catch null!!!");
+			setButtonToDefault();
+			JOptionPane.showMessageDialog(null, "No internet connection","Error",JOptionPane.ERROR_MESSAGE);
+			
 		}
+	}
+	
+	private void setButtonToDefault(){
+		isRun = false;
+		progressBar.setValue(0);
+		submitButt.setText("Submit");
 	}
 	
 	private String[][] manageArray(){

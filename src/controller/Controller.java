@@ -48,11 +48,13 @@ public class Controller {
 			    	System.exit(0);
 			    	break;
 				}
+			    timer.stop();
 			}
 		}
 	}
 	
 	private int dialog(){
+		timer.stop();
 		String[] options = { "Retry","Exit" } ;
         int choose = JOptionPane.showOptionDialog( 
                                 null, "The device is not ready",
@@ -66,6 +68,7 @@ public class Controller {
 //	    	System.exit(0);
 //	    	break;
 //		}
+        
         return choose;
 	}
 	
