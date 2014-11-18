@@ -1,5 +1,5 @@
 
-import view.Gui;
+import ku.weather.view.Gui;
 
 import com.cdyne.ws.weatherws.Weather;
 import com.cdyne.ws.weatherws.WeatherReturn;

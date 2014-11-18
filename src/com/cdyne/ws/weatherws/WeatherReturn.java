@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import controller.UniversalWeatherRespose;
+import ku.weather.controller.UniversalWeatherRespose;
 
 
 /**
