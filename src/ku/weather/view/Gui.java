@@ -68,11 +68,9 @@ public class Gui extends JFrame{
 		String col[] = {"Type","Data"};
 		tableModel = new DefaultTableModel(col,0);
 		tablePane = new JTable(tableModel);
-//		tablePane.setBounds(56, 121, 318, 107);
 		scrollPane = new JScrollPane(tablePane);
 		scrollPane.setBounds(56, 121, 318, 107);
 		panel.add(scrollPane);
-//		panel.add(tablePane);
 		
 		progressBar = new JProgressBar();
 		progressBar.setBounds(66, 92, 146, 20);
@@ -170,13 +168,19 @@ public class Gui extends JFrame{
 			
 		}
 	}
-	
+	/**
+	 * Set the button to submit and set progressbar to 0
+	 */
 	private void setButtonToDefault(){
 		isRun = false;
 		progressBar.setValue(0);
 		submitButt.setText("Submit");
 	}
-	
+	/**
+	 * set the array to get topic
+	 * @param response the response from web service
+	 * @return array after managae array
+	 */
 	private String[][] manageArray( UniversalWeatherRespose response){
 		String[][] array = new String[11][2];
 		array[0][0] = "State";

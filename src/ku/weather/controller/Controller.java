@@ -1,5 +1,9 @@
 package ku.weather.controller;
-
+/**
+ * This class connect to the webservice.
+ * @author wat wattanagaroon
+ * @version 2014/11/15
+ */
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.TimeoutException;
@@ -21,28 +25,22 @@ public class Controller {
 	public Controller() {
 		create();
 	}
-
+/**
+ * This method create factory and proxy.
+ * It will try to create again and again until it can create.
+ */
 	public void create(){
 		System.out.println("Create");
 		while(true){
 			try{
 			setTimeout(5000);
-			System.out.println("settime");
 			Weather factory = new Weather();
 			proxy = factory.getWeatherSoap();
 			timer.stop();
 			break;
 			}catch(WebServiceException e){
 				System.out.println("catch the ");
-//				String[] options = { "Retry","Exit" } ;
-//		        int choose = JOptionPane.showOptionDialog( 
-//		                                null, "The device is not ready",
-//		                                "Device Error",
-//		                                JOptionPane.YES_NO_OPTION,
-//		                                JOptionPane.ERROR_MESSAGE,
-//		                                null,
-//		                                options,
-//		                                options[1] );
+
 				int choose = dialog();
 			    if (choose == JOptionPane.CLOSED_OPTION || choose == JOptionPane.NO_OPTION) {
 			    	System.exit(0);
@@ -53,6 +51,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * The dialog show the error and ask user to want toretry again or exit it
+	 * @return number of user choose for retry and exit
+	 */
 	private int dialog(){
 		timer.stop();
 		String[] options = { "Retry","Exit" } ;
@@ -64,14 +66,13 @@ public class Controller {
                                 null,
                                 options,
                                 options[1] );
-//	    if (choose == JOptionPane.CLOSED_OPTION || choose == JOptionPane.NO_OPTION) {
-//	    	System.exit(0);
-//	    	break;
-//		}
         
         return choose;
 	}
-	
+	/**
+	 * set time out of the response if after timeout the method will show dialog
+	 * @param timeout time to timeout
+	 */
 	private void setTimeout(int timeout) {
 		timer = new Timer(timeout, new ActionListener() {
 			@Override
@@ -89,13 +90,14 @@ public class Controller {
 		});
 		timer.start();
 	}
-	
+	/**
+	 * set string of zip code
+	 * @param zip string of zip
+	 * @return response
+	 */
 	public UniversalWeatherRespose sendZip(String zip){
 		response =  proxy.getCityWeatherByZIP(zip);
 		return response;
 	}
 	
-	public UniversalWeatherRespose getWeatherReturn(){
-		return response;
-	}
 }
